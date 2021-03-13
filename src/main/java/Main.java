@@ -1,17 +1,11 @@
 import controller.InputController;
-import model.Term;
-import org.apache.commons.math3.util.Precision;
 import service.DocumentService;
 import service.IndexService;
 import service.TermService;
 import storage.DocumentStorage;
 import storage.IndexStorage;
 
-import java.util.Arrays;
 import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
 
 public class Main {
     public static void main(String[] args) {
@@ -38,7 +32,11 @@ public class Main {
 
         InputController controller = new InputController(documentService, indexService);
 
-        controller.addDocumentsFromFile("inputFile.txt");
-        controller.searchTerm("is");
+        InputReader inputReader = new InputReader(controller);
+
+        inputReader.start();
+
+//        controller.addDocumentsFromFile("defaultDocuments.txt");
+//        controller.searchTerm("is");
     }
 }
