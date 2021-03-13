@@ -2,10 +2,8 @@ package storage;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.java.Log;
-import model.Term;
 
 import java.util.Map;
-import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
 

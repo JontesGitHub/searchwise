@@ -26,7 +26,7 @@ public class DocumentService {
         return documents;
     }
 
-    public List<String> readFile(File file) {
+    private List<String> readFile(File file) {
         try (BufferedReader readTextFile = new BufferedReader(new FileReader(file))) {
             List<String> sentences = new ArrayList<>();
             String row;

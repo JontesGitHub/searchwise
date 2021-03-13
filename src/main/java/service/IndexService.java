@@ -3,11 +3,14 @@ package service;
 import lombok.RequiredArgsConstructor;
 import model.Document;
 import model.Term;
-import org.apache.commons.math3.util.Precision;
 import storage.IndexStorage;
 
-import java.util.*;
+import java.util.List;
+import java.util.Map;
+import java.util.SortedSet;
 import java.util.stream.Collectors;
+
+import static service.Utils.*;
 
 @RequiredArgsConstructor
 public class IndexService {
@@ -31,14 +34,14 @@ public class IndexService {
         SortedSet<Integer> postings = indexStorage.getPostingsByTerm(term);
         List<Document> documents = getDocumentsByIds(postings);
 
-        double idf = Utils.calcIDF(documentService.getDocumentCount(), postings.size());
+        double idf = calcIDF(documentService.getDocumentCount(), postings.size());
 
         return documents.stream()
                 .collect(Collectors.toMap(
                         document -> document,
                         document -> {
                             final List<Term> terms = termService.getTerms(document.getText());
-                            return Utils.calcTFIDF(Utils.calcTF(term, terms), idf);
+                            return calcTFIDF(calcTF(term, terms), idf);
                         }
                 ));
     }

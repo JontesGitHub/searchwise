@@ -22,7 +22,7 @@ public class Utils {
         return (double) rawCount / documentWordCount;
     }
 
-     private static long getRawCount(String term, List<Term> terms) {
+    private static long getRawCount(String term, List<Term> terms) {
         return terms.stream().filter(t -> t.getText().equals(term)).count();
     }
 }

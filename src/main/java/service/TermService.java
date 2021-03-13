@@ -4,7 +4,6 @@ import model.Term;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 public class TermService {
 
@@ -15,7 +14,6 @@ public class TermService {
 
     private List<Term> convertToTerms(String[] input) {
         List<Term> terms = new ArrayList<>();
-
         for (String word : input) {
             terms.add(new Term(word.toLowerCase()));
         }
