@@ -44,6 +44,7 @@ public class IndexService {
                             return calcTFIDF(calcTF(term, terms), idf);
                         }
                 ));
+        // TODO: Make it sorted also
     }
 
     private List<Document> getDocumentsByIds(SortedSet<Integer> postings) {

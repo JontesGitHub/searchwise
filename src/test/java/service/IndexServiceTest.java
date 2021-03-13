@@ -56,6 +56,7 @@ class IndexServiceTest {
 //        postings.add(1);
 //        when(indexStorage.getPostingsByTerm(anyString())).thenReturn(postings);
 //        when(documentService.findDocument(anyInt())).thenReturn(new Document(1, "mock mock mock"));
+// TODO: test
 
     }
 }

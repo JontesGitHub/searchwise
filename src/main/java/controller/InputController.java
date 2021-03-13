@@ -20,6 +20,7 @@ public class InputController {
         for (Map.Entry<Document, Double> entry : result.entrySet()) {
             System.out.println(entry.getKey().getText() + ":" + entry.getValue().toString());
         }
+        // TODO: return correct format
     }
 
     public void addDocumentsFromFile(String fileName) {
