@@ -17,16 +17,12 @@ import java.util.stream.Collectors;
 public class DocumentService {
 
     private final DocumentStorage documentStorage;
-//    private final IndexService indexService;
 
     public List<Document> addDocumentsFromFile(String file) {
         List<String> sentences = readFile(new File(file));
         List<Document> documents = convertToDocuments(sentences);
 
-        //send id and document to indexService
         documents.forEach(documentStorage::save);
-
-//        indexService.addInvertedIndexFromDocuments(documents);
         return documents;
     }
 

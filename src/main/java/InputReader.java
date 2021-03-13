@@ -40,7 +40,7 @@ public class InputReader {
 
     private void operation(String input) {
         String[] args = input.split(" ", 2);
-        switch(args[0]) {
+        switch (args[0]) {
             case ADD_DOCUMENTS:
                 String file = args.length < 2 ? DEFAULT_DOC_FILE : args[1];
                 inputController.addDocumentsFromFile(file);

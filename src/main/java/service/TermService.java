@@ -17,21 +17,12 @@ public class TermService {
         List<Term> terms = new ArrayList<>();
 
         for (String word : input) {
-            Term term = new Term(word.toLowerCase());
-
-            if (terms.contains(term)) {
-                Term inc = terms.stream()
-                        .filter(t -> Objects.equals(t.getText(), word))
-                        .findFirst()
-                        .get();
-                inc.incrementDuplicates();
-            }
-            terms.add(term);
+            terms.add(new Term(word.toLowerCase()));
         }
         return terms;
     }
 
     public String stem(String input) {
-        return input.substring(0, input.length()-1);
+        return input.substring(0, input.length() - 1);
     }
 }

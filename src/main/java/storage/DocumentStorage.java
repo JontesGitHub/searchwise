@@ -9,7 +9,7 @@ import java.util.Map;
 @Log
 @AllArgsConstructor
 public class DocumentStorage {
-    private Map<Integer, Document> documents;
+    private final Map<Integer, Document> documents;
 
     public void save(Document document) {
         documents.put(document.getId(), document);

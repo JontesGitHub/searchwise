@@ -14,7 +14,7 @@ public class InputController {
     private final IndexService indexService;
 
     public void searchTerm(String term) {
-        Map<Document, Double> result = indexService.getTFIDF(term);
+        Map<Document, Double> result = indexService.getDocumentsWithTFIDF(term);
         // make it sorted in tf-idf
         System.out.println(result.toString());
         for (Map.Entry<Document, Double> entry : result.entrySet()) {
@@ -24,6 +24,6 @@ public class InputController {
 
     public void addDocumentsFromFile(String fileName) {
         List<Document> documents = documentService.addDocumentsFromFile(fileName);
-        indexService.addInvertedIndexFromDocuments(documents);
+        indexService.saveInvertedIndexFromDocuments(documents);
     }
 }
