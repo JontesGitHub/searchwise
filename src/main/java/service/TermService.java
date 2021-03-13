@@ -21,6 +21,10 @@ public class TermService {
     }
 
     public String stem(String input) {
-        return input.substring(0, input.length() - 1);
+        String lastChar = input.substring(input.length() - 1);
+        if (lastChar.equals(".") || lastChar.equals("?") || lastChar.equals("!")) {
+            return input.substring(0, input.length() - 1);
+        }
+        return input;
     }
 }

@@ -17,6 +17,7 @@ import java.util.stream.Collectors;
 public class DocumentService {
 
     private final DocumentStorage documentStorage;
+    private final AtomicInteger idCounter = new AtomicInteger(1);
 
     public List<Document> addDocumentsFromFile(String file) {
         List<String> sentences = readFile(new File(file));
@@ -43,10 +44,8 @@ public class DocumentService {
     }
 
     public List<Document> convertToDocuments(List<String> sentences) {
-        AtomicInteger id = new AtomicInteger(1);
-
         return sentences.stream()
-                .map(s -> new Document(id.getAndIncrement(), s))
+                .map(s -> new Document(idCounter.getAndIncrement(), s))
                 .collect(Collectors.toList());
     }
 
