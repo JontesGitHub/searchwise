@@ -10,7 +10,7 @@ import java.io.IOException;
 import java.util.List;
 
 @RequiredArgsConstructor
-public class InputController {
+public class Controller {
     private final DocumentService documentService;
     private final IndexService indexService;
 

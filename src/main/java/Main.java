@@ -1,4 +1,4 @@
-import controller.InputController;
+import controller.Controller;
 import service.DocumentService;
 import service.IndexService;
 import service.TermService;
@@ -22,10 +22,10 @@ public class Main {
         IndexStorage indexStorage = new IndexStorage(new HashMap<>());
         IndexService indexService = new IndexService(termService, documentService, new Utils(), indexStorage);
 
-        InputController controller = new InputController(documentService, indexService);
+        Controller controller = new Controller(documentService, indexService);
 
-        InputReader inputReader = new InputReader(controller);
+        InputHandler inputHandler = new InputHandler(controller);
 
-        inputReader.start();
+        inputHandler.start();
     }
 }

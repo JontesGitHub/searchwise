@@ -1,4 +1,4 @@
-import controller.InputController;
+import controller.Controller;
 import lombok.RequiredArgsConstructor;
 
 import java.io.BufferedReader;
@@ -6,7 +6,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 
 @RequiredArgsConstructor
-public class InputReader {
+public class InputHandler {
     private final String ADD_DOCUMENTS = "-add";
     private final String SEARCH_TERM = "-search";
     private final String EXIT = "-exit";
@@ -22,7 +22,7 @@ public class InputReader {
     private final String TERM_MISSING_ERROR = "Error: Missing <TERM> param for -search.";
     private final String PREFIX = "> ";
 
-    private final InputController inputController;
+    private final Controller controller;
 
     public void start() {
         System.out.println("Welcome to SearchWise, A Simple Search Engine");
@@ -46,7 +46,7 @@ public class InputReader {
         switch (args[0]) {
             case ADD_DOCUMENTS:
                 String file = args.length < 2 ? DEFAULT_DOC_FILE : args[1];
-                inputController.addDocumentsFromFile(file);
+                controller.addDocumentsFromFile(file);
                 break;
 
             case SEARCH_TERM:
@@ -54,7 +54,7 @@ public class InputReader {
                     System.out.println(TERM_MISSING_ERROR);
                     break;
                 }
-                inputController.searchTerm(args[1]);
+                controller.searchTerm(args[1]);
                 break;
 
             case EXIT:

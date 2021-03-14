@@ -6,7 +6,6 @@ import model.SearchResult;
 import model.Term;
 import storage.IndexStorage;
 
-import java.util.Comparator;
 import java.util.List;
 import java.util.SortedSet;
 import java.util.stream.Collectors;
@@ -48,7 +47,7 @@ public class IndexService {
         double idf = utils.calcIDF(documentService.getDocumentCount(), documents.size());
         return documents.stream()
                 .map(document -> convertToSearchResult(term, idf, document))
-                .sorted(Comparator.comparingDouble(SearchResult::getTfidf))
+                .sorted(((o1, o2) -> Double.compare(o2.getTfidf(), o1.getTfidf())))
                 .collect(Collectors.toList());
     }
 
