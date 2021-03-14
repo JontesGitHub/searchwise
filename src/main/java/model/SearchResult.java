@@ -5,7 +5,7 @@ import lombok.RequiredArgsConstructor;
 
 @Getter
 @RequiredArgsConstructor
-public class SearchResponse {
+public class SearchResult {
     private final double tfidf;
     private final Document document;
 }

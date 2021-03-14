@@ -2,20 +2,21 @@ package service;
 
 import lombok.RequiredArgsConstructor;
 import model.Document;
-import model.SearchResponse;
+import model.SearchResult;
 import model.Term;
 import storage.IndexStorage;
 
-import java.util.*;
+import java.util.Comparator;
+import java.util.List;
+import java.util.SortedSet;
 import java.util.stream.Collectors;
-
-import static service.Utils.*;
 
 @RequiredArgsConstructor
 public class IndexService {
 
     private final TermService termService;
     private final DocumentService documentService;
+    private final Utils utils;
 
     private final IndexStorage indexStorage;
 
@@ -29,28 +30,28 @@ public class IndexService {
         });
     }
 
-    public List<SearchResponse> searchTerm(String term) {
+    public List<SearchResult> searchTerm(String term) {
         SortedSet<Integer> postings = indexStorage.getPostingsByTerm(term);
         if (postings == null || postings.isEmpty()) {
             return null;
         }
 
         List<Document> documents = getDocumentsByIds(postings);
-        return getSortedTFIDF(term, documents);
+        return getSortedSearchResult(term, documents);
     }
 
-    public List<SearchResponse> getSortedTFIDF(String term, List<Document> documents) {
-        double idf = calcIDF(documentService.getDocumentCount(), documents.size());
+    private List<SearchResult> getSortedSearchResult(String term, List<Document> documents) {
+        double idf = utils.calcIDF(documentService.getDocumentCount(), documents.size());
         return documents.stream()
-                .map(document -> convertToSearchResponse(term, idf, document))
-                .sorted(Comparator.comparingDouble(SearchResponse::getTfidf))
+                .map(document -> convertToSearchResult(term, idf, document))
+                .sorted(Comparator.comparingDouble(SearchResult::getTfidf))
                 .collect(Collectors.toList());
     }
 
-    private SearchResponse convertToSearchResponse(String term, double idf, Document document) {
+    private SearchResult convertToSearchResult(String term, double idf, Document document) {
         List<Term> terms = termService.getTerms(document.getText());
-        return new SearchResponse(
-                calcTFIDF(calcTF(term, terms), idf),
+        return new SearchResult(
+                utils.calcTFIDF(utils.calcTF(term, terms), idf),
                 document
         );
     }

@@ -2,19 +2,17 @@ package service;
 
 import lombok.AllArgsConstructor;
 import model.Term;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class UtilsTest {
+
+    Utils utils = new Utils();
 
     @DisplayName("Should calculate the TF-IDF correct")
     @Test
@@ -30,9 +28,10 @@ class UtilsTest {
                 new TestCase(0.666, 0.7, 0.466),
                 new TestCase(0.09, 1.0, 0.09)
         );
+
         for (TestCase tc : testCases) {
-            final double result = Utils.calcTFIDF(tc.tf, tc.idf);
-            assertEquals(result, tc.expected);
+            final double result = utils.calcTFIDF(tc.tf, tc.idf);
+            assertEquals(tc.expected, result);
         }
     }
 
@@ -50,9 +49,10 @@ class UtilsTest {
                 new TestCase(126.0, 21.0, Math.log(6)),
                 new TestCase(143.0, 11.0, Math.log(13))
         );
+
         for (TestCase tc : testCases) {
-            final double result = Utils.calcIDF(tc.totalDocs, tc.termInDocs);
-            assertEquals(result, tc.expected);
+            final double result = utils.calcIDF(tc.totalDocs, tc.termInDocs);
+            assertEquals(tc.expected, result);
         }
     }
 
@@ -70,9 +70,10 @@ class UtilsTest {
                 new TestCase("same", Arrays.asList(new Term("same"), new Term("not"), new Term("not"), new Term("not")), 0.25),
                 new TestCase("same", Arrays.asList(new Term("same"), new Term("same"), new Term("same"), new Term("not")), 0.75)
         );
+
         for (TestCase tc : testCases) {
-            final double result = Utils.calcTF(tc.term, tc.allTerms);
-            assertEquals(result, tc.expected);
+            final double result = utils.calcTF(tc.term, tc.allTerms);
+            assertEquals(tc.expected, result);
         }
     }
 }

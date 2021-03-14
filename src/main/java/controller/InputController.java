@@ -2,7 +2,7 @@ package controller;
 
 import lombok.RequiredArgsConstructor;
 import model.Document;
-import model.SearchResponse;
+import model.SearchResult;
 import service.DocumentService;
 import service.IndexService;
 
@@ -15,7 +15,7 @@ public class InputController {
     private final IndexService indexService;
 
     public void searchTerm(String term) {
-        List<SearchResponse> result = indexService.searchTerm(term);
+        List<SearchResult> result = indexService.searchTerm(term);
         if (result != null) {
             result.forEach(res ->
                     System.out.printf("Tf-Idf: %.3f, Document: id: %d, text: %s\n",

@@ -42,7 +42,7 @@ public class DocumentService {
         }
     }
 
-    public List<Document> convertToDocuments(List<String> sentences) {
+    private List<Document> convertToDocuments(List<String> sentences) {
         return sentences.stream()
                 .map(s -> new Document(idCounter.getAndIncrement(), s))
                 .collect(Collectors.toList());

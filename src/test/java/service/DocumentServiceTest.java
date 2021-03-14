@@ -9,8 +9,14 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import storage.DocumentStorage;
 
-import static org.junit.jupiter.api.Assertions.*;
+import java.io.IOException;
+import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -25,15 +31,25 @@ class DocumentServiceTest {
         documentService = new DocumentService(documentStorage);
     }
 
+    @DisplayName("Should save and return correctly")
     @Test
-    void addDocumentsFromFile() {
-// TODO: test
+    void addDocumentsFromFile() throws IOException {
+        String testFile = "src/test/java/testDocument.txt";
+        Document expected = new Document(1, "This is a mock text!");
 
+        List<Document> resultList = documentService.addDocumentsFromFile(testFile);
+
+        verify(documentStorage).save(any(Document.class));
+
+        assertEquals(expected.getId(), resultList.get(0).getId());
+        assertEquals(expected.getText(), resultList.get(0).getText());
     }
 
+    @DisplayName("Should throw when file dont exist")
     @Test
-    void convertToDocuments() {
-// TODO: test
+    void addDocumentsFromFile_throw_error() {
+        String testFile = "non_existing_file.txt";
+        assertThrows(IOException.class, () -> documentService.addDocumentsFromFile(testFile));
     }
 
     @DisplayName("Should find correct Document")

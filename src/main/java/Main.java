@@ -2,6 +2,7 @@ import controller.InputController;
 import service.DocumentService;
 import service.IndexService;
 import service.TermService;
+import service.Utils;
 import storage.DocumentStorage;
 import storage.IndexStorage;
 
@@ -28,7 +29,7 @@ public class Main {
         TermService termService = new TermService();
 
         IndexStorage indexStorage = new IndexStorage(new HashMap<>());
-        IndexService indexService = new IndexService(termService, documentService, indexStorage);
+        IndexService indexService = new IndexService(termService, documentService, new Utils(), indexStorage);
 
         InputController controller = new InputController(documentService, indexService);
 
