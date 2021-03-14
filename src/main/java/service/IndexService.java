@@ -38,6 +38,10 @@ public class IndexService {
 
         List<Document> documents = getDocumentsByIds(postings);
         return getSortedSearchResult(term, documents);
+        /*
+         * If using real databases,
+         * here the SearchResult list could be Cached for future searches on same term.
+         */
     }
 
     private List<SearchResult> getSortedSearchResult(String term, List<Document> documents) {
