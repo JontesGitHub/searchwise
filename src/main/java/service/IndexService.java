@@ -2,12 +2,11 @@ package service;
 
 import lombok.RequiredArgsConstructor;
 import model.Document;
+import model.SearchResponse;
 import model.Term;
 import storage.IndexStorage;
 
-import java.util.List;
-import java.util.Map;
-import java.util.SortedSet;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import static service.Utils.*;
@@ -30,21 +29,30 @@ public class IndexService {
         });
     }
 
-    public Map<Document, Double> getDocumentsWithTFIDF(String term) {
+    public List<SearchResponse> searchTerm(String term) {
         SortedSet<Integer> postings = indexStorage.getPostingsByTerm(term);
+        if (postings == null || postings.isEmpty()) {
+            return null;
+        }
+
         List<Document> documents = getDocumentsByIds(postings);
+        return getSortedTFIDF(term, documents);
+    }
 
-        double idf = calcIDF(documentService.getDocumentCount(), postings.size());
-
+    public List<SearchResponse> getSortedTFIDF(String term, List<Document> documents) {
+        double idf = calcIDF(documentService.getDocumentCount(), documents.size());
         return documents.stream()
-                .collect(Collectors.toMap(
-                        document -> document,
-                        document -> {
-                            final List<Term> terms = termService.getTerms(document.getText());
-                            return calcTFIDF(calcTF(term, terms), idf);
-                        }
-                ));
-        // TODO: Make it sorted also
+                .map(document -> convertToSearchResponse(term, idf, document))
+                .sorted(Comparator.comparingDouble(SearchResponse::getTfidf))
+                .collect(Collectors.toList());
+    }
+
+    private SearchResponse convertToSearchResponse(String term, double idf, Document document) {
+        List<Term> terms = termService.getTerms(document.getText());
+        return new SearchResponse(
+                calcTFIDF(calcTF(term, terms), idf),
+                document
+        );
     }
 
     private List<Document> getDocumentsByIds(SortedSet<Integer> postings) {

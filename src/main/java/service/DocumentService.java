@@ -19,7 +19,7 @@ public class DocumentService {
     private final DocumentStorage documentStorage;
     private final AtomicInteger idCounter = new AtomicInteger(1);
 
-    public List<Document> addDocumentsFromFile(String file) {
+    public List<Document> addDocumentsFromFile(String file) throws IOException {
         List<String> sentences = readFile(new File(file));
         List<Document> documents = convertToDocuments(sentences);
 
@@ -27,7 +27,7 @@ public class DocumentService {
         return documents;
     }
 
-    private List<String> readFile(File file) {
+    private List<String> readFile(File file) throws IOException {
         try (BufferedReader readTextFile = new BufferedReader(new FileReader(file))) {
             List<String> sentences = new ArrayList<>();
             String row;
@@ -38,8 +38,7 @@ public class DocumentService {
             return sentences;
 
         } catch (IOException e) {
-            System.out.println("Catch: " + e.getMessage());
-            return null;
+            throw new IOException("Could not read from file: " + file.getName());
         }
     }
 

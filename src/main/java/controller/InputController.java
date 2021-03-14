@@ -2,11 +2,12 @@ package controller;
 
 import lombok.RequiredArgsConstructor;
 import model.Document;
+import model.SearchResponse;
 import service.DocumentService;
 import service.IndexService;
 
+import java.io.IOException;
 import java.util.List;
-import java.util.Map;
 
 @RequiredArgsConstructor
 public class InputController {
@@ -14,17 +15,26 @@ public class InputController {
     private final IndexService indexService;
 
     public void searchTerm(String term) {
-        Map<Document, Double> result = indexService.getDocumentsWithTFIDF(term);
-        // make it sorted in tf-idf
-        System.out.println(result.toString());
-        for (Map.Entry<Document, Double> entry : result.entrySet()) {
-            System.out.println(entry.getKey().getText() + ":" + entry.getValue().toString());
+        List<SearchResponse> result = indexService.searchTerm(term);
+        if (result != null) {
+            result.forEach(res ->
+                    System.out.printf("Tf-Idf: %.3f, Document: id: %d, text: %s\n",
+                            res.getTfidf(),
+                            res.getDocument().getId(),
+                            res.getDocument().getText()
+                    )
+            );
+        } else {
+            System.out.printf("Nothing found for term: %s\n", term);
         }
-        // TODO: return correct format
     }
 
     public void addDocumentsFromFile(String fileName) {
-        List<Document> documents = documentService.addDocumentsFromFile(fileName);
-        indexService.saveInvertedIndexFromDocuments(documents);
+        try {
+            List<Document> documents = documentService.addDocumentsFromFile(fileName);
+            indexService.saveInvertedIndexFromDocuments(documents);
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
+        }
     }
 }

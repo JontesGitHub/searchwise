@@ -19,18 +19,21 @@ public class InputReader {
             "To see alla commands:                      -help\n";
     private final String UNKNOWN_INPUT = "Unknown command. Try -help to see all commands.\n";
     private final String DEFAULT_DOC_FILE = "defaultDocuments.txt";
-    private final String TERM_MISSING_ERROR = "Error: Missing term param.";
+    private final String TERM_MISSING_ERROR = "Error: Missing <TERM> param for -search.";
+    private final String PREFIX = "> ";
 
     private final InputController inputController;
 
     public void start() {
         System.out.println("Welcome to SearchWise, A Simple Search Engine");
+        System.out.print(PREFIX + "write here... ");
 
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(System.in))) {
 
             String input;
             while ((input = reader.readLine()) != null) {
                 operation(input);
+                System.out.print(PREFIX);
             }
 
         } catch (IOException e) {
