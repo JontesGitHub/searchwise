@@ -9,4 +9,4 @@ jobs:
 
     steps:
       - name: greeting
-        run: echo hello world
+        run: echo ${{ secrets.MY_KEY }}
